@@ -1,0 +1,74 @@
+  
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is FundooNotes Api",
+        "version": "1.0.0",
+        "title": "FundooNotes API"
+    },
+    "host": "localhost:3000",
+    "tags": [
+        {
+            "name": "FundooNotes",
+            "description": "Creating Note Taking API Like Google Keep...!"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/user": {
+            "post": {
+                "tags": [
+                    "FundooNotes user registration"
+                ],
+                "description": "create a new user",
+                "summary": "create a user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": " user ",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "firstName": {
+                                    "type": "string"
+                                },
+                                "lastName": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User created successfully"
+                    },
+                    "400": {
+                        "description": "user cannot be empty"
+                    }
+                }
+            }
+        }
+    }
+}
