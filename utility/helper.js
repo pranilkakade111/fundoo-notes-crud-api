@@ -29,7 +29,7 @@ const nodeMail = (data) => {
     from: 'pranilkakade2@gmail.com',
     to: 'pranilkakade111@gmail.com',
     subject: 'Reset The Password',
-    text: 'http://localhost:3000/resetPassword/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MjAxNDY2OTksImV4cCI6MTYyMDE1MDI5OX0.N4K1BwNf3MAO6_GLEWh0C-wwt6657tdyXIgURuk2wKw',
+    text: `http://localhost:3000/resetPassword/${createToken(data)}`,
   };
 
   transporter.sendMail(mailOption, (err, result) => {
