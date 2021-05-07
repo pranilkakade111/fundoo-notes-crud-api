@@ -45,7 +45,10 @@ class UserRegis {
             }
         });
     };
-
+    
+    resetPassword = (data ,callback) => {
+        usermodel.resetPassword(data ,callback);
+    }
 }
 
 module.exports = new UserRegis();
