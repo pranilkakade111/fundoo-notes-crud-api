@@ -69,6 +69,85 @@
                     }
                 }
             }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Fundoo user login"
+                ],
+                "description": "create a user login",
+                "summary": "user login",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": " user login ",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User login successful"
+                    },
+                    "400": {
+                        "description": "user login unsuccessful"
+                    }
+                }
+            }
+        },
+        "/forgotPassword": {
+            "post": {
+                "tags": [
+                    "Fundoo user forgot password"
+                ],
+                "description": "create a forgo password endpoint",
+                "summary": "forgot password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": " forgot password ",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "email sent sucessfully"
+                    },
+                    "400": {
+                        "description": "email verifcation uncessfull"
+                    }
+                }
+            }
         }
     }
 }
