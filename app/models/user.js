@@ -11,7 +11,7 @@ const UserSchema = mongoose.Schema({
     timestamps: true
 });
 
-UserSchema.pre('save', async function (next) {
+UserSchema.pre('save' ,async function (next) {
     try {
        const salt = await bcrypt.genSalt(10)
        const hashedPassword = await bcrypt.hash(this.password , salt)
@@ -41,6 +41,13 @@ class UserModel {
     forgotPassword = (data ,callback) => {
         userModel.findOne({email: data.email } ,callback)
     }
+
+    resetPassword = async (data, callback) => {
+        const salt = await bcrypt.genSalt(10);
+        const encrypt = await bcrypt.hash(data.password, salt);
+        userModel.findOneAndUpdate({ email: data.email }, { password: encrypt } ,{new: true} ,callback)
+          
+      }
 
 }
 module.exports = new UserModel;
