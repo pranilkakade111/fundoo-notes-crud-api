@@ -1,6 +1,7 @@
 const joi = require('@hapi/joi');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const ejs = require('ejs');
 const logger = require('../Logger/logger');
 require('dotenv').config();
 
@@ -12,7 +13,7 @@ const requestValidationSchema = joi.object({
 });
 
 const createToken = (data) => {
-  const token = jwt.sign({ name: data.name }, process.env.JWT, { expiresIn: '1h' });
+  const token = jwt.sign({ data }, process.env.JWT, { expiresIn: '1d' });
   return token;
 };
 
@@ -25,18 +26,23 @@ const nodeMail = (data) => {
     },
   });
 
-  const mailOption = {
-    from: 'pranilkakade2@gmail.com',
-    to: 'pranilkakade111@gmail.com',
-    subject: 'Reset The Password',
-    text: `http://localhost:3000/resetPassword/${createToken(data)}`,
-  };
-
-  transporter.sendMail(mailOption, (err, result) => {
-    if (err) {
-      logger.log('error', err);
+  ejs.renderFile('app/view/nodeMail.ejs', (error, info) => {
+    if (error) {
+      logger.log('error', error);
     } else {
-      logger.log('info', result);
+      const mailOption = {
+        from: 'pranilkakade2@gmail.com',
+        to: data.email,
+        subject: 'Reset The Password',
+        html: `${info}<button><a href="${'http://localhost:3000/resetPassword/'}${createToken(data)}">Button</a></button>`,
+      };
+      transporter.sendMail(mailOption, (err, result) => {
+        if (err) {
+          logger.log('error', err);
+        } else {
+          logger.log('info', result);
+        }
+      });
     }
   });
 };
