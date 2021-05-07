@@ -1,15 +1,13 @@
-const userservices = require('../services/user');
-const { requestValidationSchema ,createToken } = require('../../utility/helper');
-const joi = require('@hapi/joi');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const user = require('../models/user');
+const userservices = require('../services/user');
+const { requestValidationSchema, createToken } = require('../../utility/helper');
+const { restart } = require('nodemon');
 require('dotenv').config();
 
 class UserReg {
     /**
      * @description  Create and Save a new user
-     */ 
+     */
     createUser = (req, res) => {
         if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password) {
             return res.status(400).send({
@@ -47,40 +45,41 @@ class UserReg {
     };
     /**
      * @description  Login With User Credentials
-     */ 
+    */
     loginUser = (req, res) => {
         const userLogin = {
             email: req.body.email,
             password: req.body.password
         };
         userservices.loginUser(userLogin, (error, data) => {
-           if(error){
-               return res.status(400).send({
-                   success: false,
-                   message: 'Login Failed....!!!!',
-                   error
-               });
-           } else {
-               return res.status(200).send({
-                   success: true,
-                   message: 'Login Successful...!!!',
-                   Token: createToken(data)
-               });
-           }
+            if (error) {
+                return res.status(400).send({
+                    success: false,
+                    message: 'Login Failed....!!!!',
+                    error
+                });
+            } else {
+                return res.status(200).send({
+                    success: true,
+                    message: 'Login Successful...!!!',
+                    Token: createToken(data)
+                });
+            }
 
         });
 
     }
+
     /**
-     * @description  Send Reset Password Link To EmailID 
-     */ 
-    forgotPassword = (req,res) => {
-        const forgotPass = { 
-            email: req.body.email 
+    * @description  Send Reset Password Link To EmailID 
+    */
+    forgotPassword = (req, res) => {
+        const forgotPass = {
+            email: req.body.email
         };
 
-        userservices.forgotPassword(forgotPass ,(err ,result) => {
-            if(err) {
+        userservices.forgotPassword(forgotPass, (err, result) => {
+            if (err) {
                 return res.status(500).send({
                     success: false,
                     message: 'Failed To Send An Email...!!!',
@@ -96,6 +95,36 @@ class UserReg {
         });
     };
 
+    resetPassword = (req,res) => {
+        try {
+            const verification = jwt.verify(req.headers.token ,process.env.JWT);
+            const userInfo = {
+                password: req.body.password, 
+                email: verification.data.email,
+            }
+            userservices.resetPassword(userInfo ,(err,result) => {
+                if(err) {
+                  return res.status(401).send({
+                        success: false,
+                        message: 'Failed To Reset Password',
+                        err,
+                    });
+                } else {
+                  return res.status(200).send({
+                        success: true,
+                        message: 'Reset Password Successfully....!!! ',
+                        result,
+                    });
+                }
+            });
+        } catch (error) {
+            return res.status(400),send({
+                success: false,
+                message: 'Token Is Expired Or Not Valid...!!!!'
+            });
+        }
+       
+    }
 
 }
 
