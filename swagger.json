@@ -41,7 +41,7 @@
                         "name": " user ",
                         "in": "body",
                         "required": true,
-                        "schema": {
+                        "schema": { 
                             "type": "object",
                             "properties": {
                                 "firstName": {
@@ -73,7 +73,7 @@
         "/login": {
             "post": {
                 "tags": [
-                    "Fundoo user login"
+                    "FundooNote user login"
                 ],
                 "description": "create a user login",
                 "summary": "user login",
@@ -114,9 +114,9 @@
         "/forgotPassword": {
             "post": {
                 "tags": [
-                    "Fundoo user forgot password"
+                    "FundooNote user forgot password"
                 ],
-                "description": "create a forgo password endpoint",
+                "description": "create a forgot password endpoint",
                 "summary": "forgot password",
                 "consumes": [
                     "application/json"
@@ -141,10 +141,51 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "email sent sucessfully"
+                        "description": "Email sent successfully"
                     },
                     "400": {
-                        "description": "email verifcation uncessfull"
+                        "description": "Email Not Sent "
+                    }
+                }
+            }
+        },
+        "/resetPassword": {
+            "post": {
+                "tags": [
+                    "FundooNote user reset password"
+                ],
+                "description": "create a reset Password endpoint",
+                "summary": "Reset Password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": " Reset Password ",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "token": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password reset Successfully"
+                    },
+                    "400": {
+                        "description": "Password Is Not Reset"
                     }
                 }
             }
