@@ -4,7 +4,7 @@
   "description": "Note Keeping API Like Google Keep",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "nodemon server.js",
     "lint": "eslint ./"
   },
@@ -21,10 +21,13 @@
     "@hapi/joi": "^17.1.1",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "mocha": "^8.4.0",
     "mongoose": "^5.12.7",
     "nodemailer": "^6.6.0",
     "swagger-ui-express": "^4.1.6",
