@@ -1,3 +1,14 @@
+/** ***********************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ *
+ * Purpose          : To hit the perticular API 
+
+ * @file            : user.js
+ * @author          : Pranil Kakade
+ * @version         : 1.0
+ * @since           : 02-05-2021
+ *
+ ************************************************************************* */
 const jwt = require('jsonwebtoken');
 const userservices = require('../services/user');
 const { requestValidationSchema, createToken } = require('../../utility/helper');
@@ -97,10 +108,9 @@ class UserReg {
 
     resetPassword = (req,res) => {
         try {
-            const verification = jwt.verify(req.headers.token ,process.env.JWT);
             const userInfo = {
                 password: req.body.password, 
-                email: verification.data.email,
+                email: req.userData.email,
             }
             userservices.resetPassword(userInfo ,(err,result) => {
                 if(err) {
@@ -113,12 +123,12 @@ class UserReg {
                   return res.status(200).send({
                         success: true,
                         message: 'Reset Password Successfully....!!! ',
-                        result,
+                        
                     });
                 }
             });
         } catch (error) {
-            return res.status(400),send({
+            return res.status(400).send({
                 success: false,
                 message: 'Token Is Expired Or Not Valid...!!!!'
             });
