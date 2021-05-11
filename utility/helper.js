@@ -12,13 +12,11 @@ const requestValidationSchema = joi.object({
   password: joi.string().required(),
 });
 
-const requestValidationSchemaNote = joi.object({
-  title: joi.string().required(),
-  description: joi.string().required(),
-});
-
 const createToken = (data) => {
-  const token = jwt.sign({ data }, process.env.JWT, { expiresIn: '1d' });
+  const token = jwt.sign({
+    email: data.email,
+    id: data._id,
+  }, process.env.JWT, { expiresIn: '1d' });
   return token;
 };
 
@@ -54,9 +52,10 @@ const nodeMail = (data) => {
 
 const verifyToken = (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(' ')[1];
-    const decode = jwt.verify(token, process.env.JWT);
+    const decode = jwt.verify(req.headers.token, process.env.JWT);
     req.userData = decode;
+    const userId = decode.id;
+    req.userId = userId;
     next();
   } catch (error) {
     res.status(401).send({
@@ -65,18 +64,9 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-const decodeToken = (noteInfo, token) => {
-  const decode = jwt.verify(token, process.env.JWT);
-  const userId = decode.id;
-  noteInfo.userId = userId;
-  return noteInfo;s
-};
-
 module.exports = {
   requestValidationSchema,
   createToken,
   nodeMail,
   verifyToken,
-  requestValidationSchemaNote,
-  decodeToken,
 };
