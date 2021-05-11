@@ -1,3 +1,13 @@
+/** ***********************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ *
+ * Purpose          : Having Business Logic of perticular API
+
+ * @file            : user.js
+ * @author          : Pranil Kakade
+ * @version         : 1.0
+ * @since           : 02-05-2021
+ ************************************************************************* */
 const usermodel = require('../models/user');
 const bcrypt = require('bcrypt');
 const {nodeMail} = require('../../utility/helper');
@@ -13,14 +23,10 @@ class UserRegis {
             if (result) {
                 bcrypt.compare(userLogin.password, result.password, (err, data) => {
                     if (err) {
-                        callback(err ,null);
+                        callback(err, null);
                     }
                     if (data) {
-                        const resultSuccess = {
-                            message: 'Successful....!!!'
-                        };
-                        callback(null ,resultSuccess)
-
+                        callback(null, result);
                     } else {
                         callback('Password Does Not Match...!!!!')
                     }
@@ -34,11 +40,15 @@ class UserRegis {
 
     forgotPassword = (data ,callback) => {
         usermodel.forgotPassword(data ,(err ,result) => {
+            const detailsData = {
+                email: result.email,
+                _id: result._id,
+            };
             if(result) {
                 if(err) {
                     callback(err ,null);
                 } else {
-                    callback(null ,nodeMail(data)); 
+                    callback(null ,nodeMail(detailsData)); 
                 }
             }else {
                 callback('Email Does not Exist.... ');
