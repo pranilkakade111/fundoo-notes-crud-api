@@ -6,7 +6,6 @@ const bodyparser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const logger = require('./Logger/logger');
 const swaggerDoc = require('./swagger.json');
-const noteroute = require('./app/routes/note');
 const dbConnection = require('./config/DBconfig');
 require('dotenv').config();
 
@@ -43,7 +42,6 @@ app.get('/', (req, res) => {
 });
 
 require('./app/routes/user')(app);
-require('./app/routes/note')(app);
 
 /**
  * @description  listen for requests
@@ -57,7 +55,7 @@ new dbConnection(process.env.MONGODB, {
   useUnifiedTopology: true,
   useCreateIndex: true,
   useFindAndModify: false,
-}).connect().then((uri) => console.log(`connected To ${uri}`))
+}).connect().then((uri) => console.log(`connected To ${uri} Successfully....!!!!!!`))
   .catch((err) => console.log('Could Not connected To Database', err));
 
 module.exports = app;
