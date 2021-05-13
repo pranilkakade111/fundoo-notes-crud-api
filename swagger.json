@@ -189,6 +189,161 @@
                     }
                 }
             }
+        },
+        "/notes": {
+            "post": {
+                "tags": [
+                    "FundooNote App: create notes"
+                ],
+                "description": "create a new note",
+                "summary": "create a note",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": " user ",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "notes created successfully"
+                    },
+                    "400": {
+                        "description": "notes cannot be empty"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "FundooNote App: get notes"
+                ],
+                "summary": "retrive all notes",
+                "description": "retrive all note",
+                "responses": {
+                    "200": {
+                        "description": "notes found successfully"
+                    },
+                    "404": {
+                        "description": "notes not found "
+                    },
+                    "500": {
+                        "description": "could not find notes"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/notes/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "find note by ID",
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "tags": [
+                    "FundooNotes App: Update Note"
+                ],
+                "summary": "Update an existing note",
+                "description": "find by ID and update",
+                "operationId": "updateNotes",
+                "parameters": [
+                    {
+                        "name": " notes ",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Notes updated successfully"
+                    },
+                    "404": {
+                        "description": "Notes not found "
+                    },
+                    "500": {
+                        "description": "could not find Notes"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "FundooNote App: Delete Note"
+                ],
+                "summary": "Delete a Note",
+                "in": "path",
+                "description": "delete a Note by its ID",
+                "operationId": "delete Note",
+                "responses": {
+                    "200": {
+                        "description": "Note deleted successfully"
+                    },
+                    "404": {
+                        "description": "Note not found not found"
+                    },
+                    "500": {
+                        "description": "could not delete Note"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "JWT": {
+            "type": "apiKey",
+            "name": "token",
+            "in": "header"
         }
     }
 }
+    
