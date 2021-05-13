@@ -1,3 +1,12 @@
+/** ***********************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ *
+ * Purpose          : To Create Database Schema For API
+ * @file            : note.js
+ * @author          : Pranil Kakade
+ * @version         : 1.0
+ * @since           : 08-05-2021
+ ************************************************************************* */
 const mongoose = require('mongoose');
 const note = require('../services/note');
 
@@ -6,7 +15,7 @@ const noteSchema = mongoose.Schema({
   description: { type: String, required: true },
   isPinned: { type: Boolean, default: false },
   isArchived: { type: Boolean, default: false },
-  isReminder: { type: Boolean, default: false },
+  isReminder: { type: String, required: false },
   isTrashed: { type: Boolean, default: false },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 }, {
@@ -45,6 +54,16 @@ class NoteModel {
             callback(null ,notedata);
           }
       });     
+  };
+
+  getNoteById = (Ids, callback) => {
+    noteModel.findById(Ids, (err, noteresult) => {
+      if(err){
+          callback(err, null);
+      } else {
+          callback(null, noteresult);
+      }
+    });
   };
 
   deleteNote = (noteIds, callback) => {
