@@ -61,7 +61,7 @@ class UserModel {
 
     resetPassword = async (data, callback) => {
         const salt = await bcrypt.genSalt(10)
-        const encrypt = await bcrypt.hash(data.password , salt) 
+        const encrypt = await bcrypt.hash(data.newPassword , salt) 
         userModel.findOneAndUpdate({ email: data.email }, { password: encrypt } ,{new: true})
         .then((cred)=>{
             callback(null, cred);
