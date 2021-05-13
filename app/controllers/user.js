@@ -99,7 +99,7 @@ class UserReg {
             } else {
                 return res.status(200).send({
                     success: true,
-                    message: 'Email Sent Successully...!!!',
+                    message: 'Reset Link Sent On Register Email Id...Successully...!!!',
                     result
                 });
             }
@@ -109,7 +109,7 @@ class UserReg {
     resetPassword = (req,res) => {
         try {
             const userInfo = {
-                password: req.body.password, 
+                newPassword: req.body.newPassword, 
                 email: req.userData.email,
             }
             userservices.resetPassword(userInfo ,(err,result) => {
