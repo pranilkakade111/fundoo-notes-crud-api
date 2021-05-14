@@ -4,6 +4,8 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
+const redis = require('redis');
+const responseTime = require('response-time');
 const logger = require('./Logger/logger');
 const swaggerDoc = require('./swagger.json');
 const dbConnection = require('./config/DBconfig');
@@ -16,7 +18,7 @@ const port = process.env.PORT;
  */
 
 const app = express();
-
+app.use(responseTime());
 /**
  * @description  parse requests of content-type - application/x-www-form-urlencoded
  */
@@ -36,6 +38,14 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 /**
  * @description  define a simple route
  */
+
+const client = redis.createClient();
+client.on('error', (error) => {
+  console.log('Error Has Occured...!!!');
+});
+client.on('connect', () => {
+  console.log('Redis Server Connected Successfully...!!!!');
+});
 
 app.get('/', (req, res) => {
   res.json({ message: 'Creating FundooNote App ...Note Keeping App Like Google Keep' });
