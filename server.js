@@ -19,17 +19,10 @@ const port = process.env.PORT;
 
 const app = express();
 app.use(responseTime());
-/**
- * @description  parse requests of content-type - application/x-www-form-urlencoded
- */
 
-app.use(bodyparser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
-/**
- * @description  parse requests of content-type - application/json
- */
-
-app.use(bodyparser.json());
+app.use(express.json());
 
 // require('./config/databaseConfig')(app);
 
@@ -40,11 +33,18 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
  */
 
 const client = redis.createClient();
+
+client.on('connect', () => {
+  console.log('Redis Server Connected Successfully...!!!!');
+});
+client.on('ready', () => {
+  console.log('Client Connected To Redis And Ready To Use...!!!');
+});
 client.on('error', (error) => {
   console.log('Error Has Occured...!!!');
 });
-client.on('connect', () => {
-  console.log('Redis Server Connected Successfully...!!!!');
+client.on('end', () => {
+  console.log('client Disconnected From Redis..!!!');
 });
 
 app.get('/', (req, res) => {
