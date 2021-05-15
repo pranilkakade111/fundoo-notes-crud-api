@@ -316,7 +316,6 @@
                     "FundooNote App: Delete Note"
                 ],
                 "summary": "Delete a Note",
-                "in": "path",
                 "description": "delete a Note by its ID",
                 "operationId": "delete Note",
                 "responses": {
@@ -335,6 +334,139 @@
                         "JWT": []
                     }
                 ]
+            }
+        },
+        "/lables":{
+            "post": {
+                "tags": [
+                    "FundooNotes: Creates Lables...!"
+                ],
+                "description": "Create A New Lable",
+                "summary": "Create A Lable",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "Lables",
+                        "in":"body",
+                        "required": true,
+                        "schema": {
+                            "type":"object",
+                            "properties": {
+                                "lable":{
+                                    "type":"string"
+                                }
+                            }
+                        }
+
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Lable Created Successfully.....!!!!"
+                    },
+                    "401":{
+                        "description": "Failed To Create Lable...!!!"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT":[]
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "FundooNote: Get Lables"
+                ],
+                "summary": "Retrive All Lables",
+                "description": "Retrive All Lables",
+                "responses": {
+                    "200":{
+                        "description": "Retrived All Lables Successfully...!"
+                    },
+                    "401":{
+                        "description": "Failed To Retrive All Lables...!!!"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT":[]
+                    }
+                ]
+            }
+        },
+        "/lables/{id}":{
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "Find Lable By Id..!!",
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "tags": [
+                    "FundooNote: Update Lables"
+                ],
+                "summary": "Update An Existing Lable..!!",
+                "description": "Find Lable By Id And Update..!!",
+                "operationId": "updateLable",
+                "parameters": [
+                    {
+                        "name": "lables",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type":"object",
+                            "properties": {
+                                "lable":{
+                                    "type":"string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Lable Get Updated Successfully...!!"
+                    },
+                    "404":{
+                        "description": "Failed To Update Lable...!!!"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT":[]
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "FundooNotes: Delete Lable"
+                ],
+                "summary": "Delete A Lable",
+                "description": "Delete A Lable By Its ID..!",
+                "operationId": "deleteLable",
+                "responses": {
+                    "200":{
+                        "description": "Lable Get deleted Successully...!!!"
+                    },
+                    "400":{
+                        "description": "Failed To Delete Lable...!!!"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT":[]
+                    }
+                ]
+                
             }
         }
     },
