@@ -10,6 +10,7 @@
  ************************************************************************* */
 const user = require('../controllers/user');
 const note = require('../controllers/note');
+const lable = require('../controllers/lable');
 const { verifyToken } = require('../../utility/helper');
 const { cache } = require('../../utility/redisCache');
 
@@ -26,11 +27,19 @@ module.exports = (app) => {
 
   app.put('/notes/:noteId', verifyToken, note.updateNote);
 
-  app.get('/notes', cache, note.getNote);
+  app.get('/notes', verifyToken, cache, note.getNote);
 
   app.get('/notes/:noteId', verifyToken, note.getNoteById);
 
   app.delete('/notes/:noteId', verifyToken, note.deleteNote);
 
   app.put('/notes/trash/:noteId', verifyToken, note.trashNote);
+
+  app.post('/lables', verifyToken, lable.createLable);
+
+  app.put('/lables/:lableId', verifyToken, lable.updateLable);
+
+  app.delete('/lables/:lableId', verifyToken, lable.deleteLable);
+
+  app.get('/lables', verifyToken, lable.getLable);
 };
