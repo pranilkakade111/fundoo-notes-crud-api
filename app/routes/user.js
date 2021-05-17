@@ -27,6 +27,8 @@ module.exports = (app) => {
 
   app.put('/notes/:noteId', verifyToken, note.updateNote);
 
+  app.put('/addLable', verifyToken, note.addLable);
+
   app.get('/notes', verifyToken, cache, note.getNote);
 
   app.get('/notes/:noteId', verifyToken, note.getNoteById);
@@ -42,4 +44,13 @@ module.exports = (app) => {
   app.delete('/lables/:lableId', verifyToken, lable.deleteLable);
 
   app.get('/lables', verifyToken, lable.getLable);
+
+  app.all('*', (req, res) => {
+    const err = new Error(`Requested URL ${req.path} Not Found`);
+    res.status(401).json({
+      success: false,
+      message: err.message,
+      stack: err.stack,
+    });
+  });
 };
