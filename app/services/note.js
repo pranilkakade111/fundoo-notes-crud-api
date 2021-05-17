@@ -16,11 +16,15 @@ const client = redis.createClient();
 
 class NoteService {
   createNote = (noteInfo, callback) => {
-      notemodel.createNote(noteInfo, callback);
+    notemodel.createNote(noteInfo, callback);
   };
    
   updateNote = (noteData, callback) => {
-      notemodel.updateNote(noteData, callback);
+    notemodel.updateNote(noteData, callback);
+  };
+
+  addLable = (addLableData, callback) => {
+    notemodel.addLable(addLableData, callback);
   };
 
   getNote = (callback) => {
