@@ -9,6 +9,7 @@
  ************************************************************************* */
 const mongoose = require('mongoose');
 const note = require('../services/note');
+const Lable = require('../models/lable');
 
 const noteSchema = mongoose.Schema({
   title: { type: String, required: true },
@@ -18,6 +19,7 @@ const noteSchema = mongoose.Schema({
   isReminder: { type: String, required: false },
   isTrashed: { type: Boolean, default: false },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  lableId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lable" }],
 }, {
   timestamps: true,
   versionKey: false,
@@ -44,6 +46,12 @@ class NoteModel {
     }).catch((err) => {
         callback(err, null);
     });   
+  };
+
+  addLable = (addLableData, callback) => {
+    const lableId = addLableData.lableId;
+    const noteId = addLableData.noteId;
+    noteModel.findByIdAndUpdate(noteId,  { lableId: lableId } , { new: true }, callback);      
   };
 
   getNote = (callback) => {
