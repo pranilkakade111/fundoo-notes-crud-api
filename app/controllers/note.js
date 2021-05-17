@@ -1,7 +1,20 @@
+/** ***********************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ *
+ * Purpose          : To hit the perticular API 
+
+ * @file            : note.js
+ * @author          : Pranil Kakade
+ * @version         : 1.0
+ * @since           : 08-05-2021
+ ************************************************************************* */
 const noteServices = require('../services/note');
 
 class NoteController 
 {
+  /**
+  * @description  Create and Save a new Note
+  */
   createNote = (req, res) => {
      if(!req.body.title||!req.body.description){
        return res.status(400).send({
@@ -32,6 +45,9 @@ class NoteController
        });
   };
 
+  /**
+  * @description  Update and Save a Existing note With NoteId
+  */
   updateNote = (req, res) => {
     if(!req.body.title||!req.body.description){
         return res.status(400).send({
@@ -63,6 +79,30 @@ class NoteController
       });
   };
 
+  addLable = (req, res) => {
+      const addLableData = {
+          noteId: req.body.noteId,
+          lableId: req.body.lableId,
+      }
+      noteServices.addLable(addLableData, (err, noteResult) => {
+        if(err){
+            return res.status(400).send({
+                success: false,
+                message: 'Failed To Add Lable To Note...!!!'
+            });
+        } else{
+            return res.status(200).send({
+                success: true,
+                message: 'Add Lable To Note Successfully...!!!',
+                data: noteResult,
+            });
+        }
+      });
+  };
+
+  /**
+  * @description  Retriving All Notes
+  */
   getNote = (req, res) => {
     noteServices.getNote((err, noteResult) => {
       if(err) {
@@ -80,6 +120,27 @@ class NoteController
     }); 
   };
 
+  getNoteById = (req, res) => {
+    const Id = req.params.noteId;
+    noteServices.getNoteById(Id, (err, noteResult) => {
+      if(noteResult === null){
+        res.status(404).send({
+            success: false,
+            message: "Note Not Found By ID" + Id
+        });
+    } else {
+        res.status(200).send({
+            success: true,
+            message: "Note Get Retrived Successfully...!!!",
+            data: noteResult
+        });
+     }
+    });
+  };
+
+  /**
+  * @description  Delete Note Permanantly From Database
+  */
   deleteNote = (req, res) => {
       const nId = req.params.noteId;
     noteServices.deleteNote(nId, (err, noteResult) => {
@@ -98,6 +159,9 @@ class NoteController
     });  
   };
 
+  /**
+   * @description  Move Note To Trash
+   */
   trashNote = (req, res) => {
     const NoteID = req.params.noteId;
     noteServices.trashNote(NoteID, (err, noteResult) => {
