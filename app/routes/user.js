@@ -10,7 +10,7 @@
  ************************************************************************* */
 const user = require('../controllers/user');
 const note = require('../controllers/note');
-const lable = require('../controllers/lable');
+const label = require('../controllers/label');
 const { verifyToken } = require('../../utility/helper');
 const { cache } = require('../../utility/redisCache');
 
@@ -27,8 +27,6 @@ module.exports = (app) => {
 
   app.put('/notes/:noteId', verifyToken, note.updateNote);
 
-  app.put('/addLable', verifyToken, note.addLable);
-
   app.get('/notes', verifyToken, cache, note.getNote);
 
   app.get('/notes/:noteId', verifyToken, note.getNoteById);
@@ -37,20 +35,15 @@ module.exports = (app) => {
 
   app.put('/notes/trash/:noteId', verifyToken, note.trashNote);
 
-  app.post('/lables', verifyToken, lable.createLable);
+  app.post('/labels', verifyToken, label.createLabel);
 
-  app.put('/lables/:lableId', verifyToken, lable.updateLable);
+  app.put('/labels/:labelId', verifyToken, label.updateLabel);
 
-  app.delete('/lables/:lableId', verifyToken, lable.deleteLable);
+  app.delete('/labels/:labelId', verifyToken, label.deleteLabel);
 
-  app.get('/lables', verifyToken, lable.getLable);
+  app.get('/labels', verifyToken, label.getLabel);
 
-  app.all('*', (req, res) => {
-    const err = new Error(`Requested URL ${req.path} Not Found`);
-    res.status(401).json({
-      success: false,
-      message: err.message,
-      stack: err.stack,
-    });
-  });
+  app.put('/addLabelToNote', verifyToken, note.addLabel);
+
+  app.put('/removeLabelToNote', verifyToken, note.removeLabel);
 };
