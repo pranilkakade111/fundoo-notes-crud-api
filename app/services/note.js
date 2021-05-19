@@ -23,8 +23,12 @@ class NoteService {
     notemodel.updateNote(noteData, callback);
   };
 
-  addLable = (addLableData, callback) => {
-    notemodel.addLable(addLableData, callback);
+  addLabel = (addLabelData, callback) => {
+    notemodel.addLabel(addLabelData, callback);
+  };
+
+  removeLabel = (removeLabelData, callback) => {
+    notemodel.removeLabel(removeLabelData, callback);
   };
 
   getNote = (callback) => {
