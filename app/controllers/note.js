@@ -14,6 +14,7 @@ class NoteController
 {
   /**
   * @description  Create and Save a new Note
+  * params
   */
   createNote = (req, res) => {
      if(!req.body.title||!req.body.description){
@@ -79,25 +80,46 @@ class NoteController
       });
   };
 
-  addLable = (req, res) => {
-      const addLableData = {
+  addLabel = (req, res) => {
+      const addLabelData = {
           noteId: req.body.noteId,
-          lableId: req.body.lableId,
+          labelId: req.body.labelId,
       }
-      noteServices.addLable(addLableData, (err, noteResult) => {
+      noteServices.addLabel(addLabelData, (err, noteResult) => {
         if(err){
             return res.status(400).send({
                 success: false,
-                message: 'Failed To Add Lable To Note...!!!'
+                message: 'Failed To Add Label To Note...!!!'
             });
         } else{
             return res.status(200).send({
                 success: true,
-                message: 'Add Lable To Note Successfully...!!!',
+                message: 'Add Label To Note Successfully...!!!',
                 data: noteResult,
             });
         }
       });
+  };
+
+  removeLabel = (req, res) => {
+    const removeLabelData = {
+        noteId: req.body.noteId,
+        labelId: req.body.labelId,
+    }
+    noteServices.removeLabel(removeLabelData, (err, noteResult) => {
+      if(err) {
+        return res.status(400).send({
+            success: false,
+            message: 'Failed To Remove Label To Note...!!!'
+        });
+      } else {
+        return res.status(200).send({
+            success: true,
+            message: 'Remove Label To Note Successfully...!!!',
+            data: noteResult,
+        });
+      }
+    });
   };
 
   /**
