@@ -9,7 +9,7 @@
  ************************************************************************* */
 const mongoose = require('mongoose');
 const note = require('../services/note');
-const Lable = require('../models/lable');
+const Label = require('./label');
 
 const noteSchema = mongoose.Schema({
   title: { type: String, required: true },
@@ -19,7 +19,7 @@ const noteSchema = mongoose.Schema({
   isReminder: { type: String, required: false },
   isTrashed: { type: Boolean, default: false },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  lableId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Lable" }],
+  labelId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Label" }],
 }, {
   timestamps: true,
   versionKey: false,
@@ -48,12 +48,17 @@ class NoteModel {
     });   
   };
 
-  addLable = (addLableData, callback) => {
-    const lableId = addLableData.lableId;
-    const noteId = addLableData.noteId;
-    noteModel.findByIdAndUpdate(noteId,  { lableId: lableId } , { new: true }, callback);      
+  addLabel = (addLabelData, callback) => {
+    const labelId = addLabelData.labelId;
+    const noteId = addLabelData.noteId;
+    noteModel.findByIdAndUpdate(noteId,  { $push: { labelId: labelId } } , callback);      
   };
 
+  removeLabel = (removeLabelData, callback) => {
+    const labelId = removeLabelData.labelId;
+    const noteId = removeLabelData.noteId;
+    noteModel.findByIdAndUpdate(noteId, { $pull: { labelId: labelId } }, callback);
+  };
   getNote = (callback) => {
       noteModel.find((err, notedata) => {
         if(err){
