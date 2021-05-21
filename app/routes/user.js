@@ -46,4 +46,8 @@ module.exports = (app) => {
   app.put('/addLabelToNote', verifyToken, note.addLabel);
 
   app.put('/removeLabelToNote', verifyToken, note.removeLabel);
+
+  app.put('/addCollaborator', verifyToken, note.addCollaborator);
+
+  app.put('/removeCollaborator', verifyToken, note.removeCollaborator);
 };
