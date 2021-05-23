@@ -52,10 +52,16 @@ const mongoose = require('mongoose');
      });   
    };
  
-   addLabel = (addLabelData, callback) => {
-     const labelId = addLabelData.labelId;
-     const noteId = addLabelData.noteId;
-     noteModel.findByIdAndUpdate(noteId, { $addToSet: { labelId: labelId } }, callback);
+   addLabel = async (data, callback) => {
+     const labelId = data.labelId;
+     const noteId = data.noteId;
+     const labelCheck = await noteModel.findOne({ labelId: data.labelId });
+     if(labelCheck) {
+       callback('Label Id Already Exist...!!!');
+     } else {
+     const noteEx = await noteModel.findByIdAndUpdate(noteId, { $addToSet: { labelId: labelId } });
+      callback(null, noteEx);
+     }
    };
  
    removeLabel = (removeLabelData, callback) => {
@@ -63,6 +69,7 @@ const mongoose = require('mongoose');
      const noteId = removeLabelData.noteId;
      noteModel.findByIdAndUpdate(noteId, { $pull: { labelId: labelId } }, callback);
    };
+
    getNote = (callback) => {
        noteModel.find((err, notedata) => {
          if(err){
@@ -102,10 +109,21 @@ const mongoose = require('mongoose');
        });
    };
 
-   addCollaborator = (userData, callback) => {
+   addCollaborator =  (userData, callback) => {
     const noteId = userData.noteId;
     const userId = userData.userId;
-    noteModel.findByIdAndUpdate(noteId, { $addToSet: { collaborator: userId } }, callback);
+     noteModel.findByIdAndUpdate(noteId, { $addToSet: { collaborator: userId } }, callback);
+    
+   };
+
+   checkUserID = (userDaTa, callback) => {
+    noteModel.find({ collaborator: userDaTa.userId }, (err, userIdPre) => {
+      if(err) {
+        callback(err, null);
+      } else {
+        callback(null, userIdPre);
+      }
+    });
    };
 
    removeCollaborator = (userdata, callback) => {
@@ -113,7 +131,6 @@ const mongoose = require('mongoose');
     const userId = userdata.userId;
     noteModel.findByIdAndUpdate(noteId, { $pull: { collaborator: userId } }, callback);
    };
- 
  }
  
  module.exports = new NoteModel();
