@@ -21,10 +21,10 @@
      notemodel.updateNote(noteData, callback);
    };
  
-   addLabel = (addLabelData, callback) => {
-     notemodel.addLabel(addLabelData, callback);
+   addLabel = (dataLabel, callback) => {
+    notemodel.addLabel(dataLabel, callback);
    };
- 
+
    removeLabel = (removeLabelData, callback) => {
      notemodel.removeLabel(removeLabelData, callback);
    };
@@ -56,8 +56,27 @@
    };
 
    addCollaborator = (userData, callback) => {
-    notemodel.addCollaborator(userData, callback);
-   };
+     notemodel.checkUserID(userData, (err, idExist) => {
+       if(err) {
+         err = { 
+           success: false,
+           message: 'Error Happened..!',
+           err,
+         }
+         callback(err, null);
+       } else if (idExist != 0) {
+         let userID = ''
+         userID = {
+          success: false,
+          message: 'User Id Already Exist...!',
+         }
+         callback(userID, null);
+        } else {
+          notemodel.addCollaborator(userData, callback);
+        }
+       });
+     };
+   
 
    removeCollaborator = (userdata, callback) => {
     notemodel.removeCollaborator(userdata, callback);
