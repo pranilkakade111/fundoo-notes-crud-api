@@ -80,32 +80,37 @@
    };
  
    addLabel = (req, res) => {
-       const addLabelData = {
-           noteId: req.body.noteId,
-           labelId: req.body.labelId,
-       }
+    const labelData = {
+        noteId: req.body.noteId,
+        labelId: req.body.labelId,
+        userId: req.userId,
+    }
 
-       noteServices.addLabel(addLabelData, (err, noteResult) => {
-         if(err){
-             return res.status(400).send({
-                 success: false,
-                 message: 'Failed To Add Label To Note...!!!'
-             });
-         } else{
-             return res.status(200).send({
-                 success: true,
-                 message: 'Add Label To Note Successfully...!!!',
-                 data: noteResult,
-             });
-         }
-       });
+    noteServices.addLabel(labelData, (err, labeldata) => {
+      if(err) {
+          return res.status(401).send({
+              success: false,
+              message: 'Failed To Add Label To Note...!!!',
+              err,
+          });
+      } else {
+          return res.status(200).send({
+              success: true,
+              message: 'Add Label To Note Successfully By This User...!!! = ' + req.userId,
+              labeldata,
+          });
+      }
+    });
    };
- 
+
+
    removeLabel = (req, res) => {
      const removeLabelData = {
          noteId: req.body.noteId,
          labelId: req.body.labelId,
+         userId: req.userId,
      }
+
      noteServices.removeLabel(removeLabelData, (err, noteResult) => {
        if(err) {
          return res.status(400).send({
@@ -115,7 +120,7 @@
        } else {
          return res.status(200).send({
              success: true,
-             message: 'Remove Label To Note Successfully...!!!',
+             message: 'Remove Label To Note Successfully By This User...!!! = ' + req.userId,
              data: noteResult,
          });
        }
@@ -204,19 +209,20 @@
    addCollaborator = (req, res) => {
     const userData = {
       noteId: req.body.noteId,
-      userId: req.body.userId,  
+      userId: req.body.userId,
     }
-
+     
     noteServices.addCollaborator(userData, (err, userResult) => {
       if(err) {
           return res.status(401).send({
            success: false,
-           message: 'Failed To Collaborate User With Note..!!!' 
+           message: 'Failed To Collaborate User With Note..!!!',
+           err, 
           });
       } else {
           return res.status(200).send({
            success: true,
-           message: 'Collaborate User With Note Successfully...!!!',
+           message: 'Collaborate User With Note Successfully By This User  ...!!! ',
            data: userResult, 
           });
       }
@@ -226,7 +232,7 @@
    removeCollaborator = (req, res) => {
     const userdata = {
         noteId: req.body.noteId,
-        userId: req.body.userId,  
+        userId: req.body.userId,
       }
 
       noteServices.removeCollaborator(userdata, (err, userResult) => {
