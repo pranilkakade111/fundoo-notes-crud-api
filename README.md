@@ -8,7 +8,7 @@ Descrption:
 
 FundooNote Application it is API based application which are using express framework, nodeJS Runtime,
 by this application we can save on note in the app and when we want we fetch all the notes which are 
-existing. If anyone want to use this project in their system so follow the given mentioned steps:
+existing. It is Just Like Google Keep Note Taking App If anyone want to use this project in their system so follow the given mentioned steps:
 
 Step1:
 
