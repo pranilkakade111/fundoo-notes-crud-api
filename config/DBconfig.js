@@ -16,7 +16,6 @@ const isState = function (state) {
 
 /**
 * @constructor
-*
 * @param {string} uri     - Mongoose connection URI.
 * @see http://mongoosejs.com/docs/connections.html
 * @param {object} options - Mongoose connection options.

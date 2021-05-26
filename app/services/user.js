@@ -8,14 +8,14 @@
  * @version         : 1.0
  * @since           : 02-05-2021
  ************************************************************************* */
-const usermodel = require('../models/user');
+const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const {nodeMail} = require('../../utility/helper');
 
 class UserRegis {
 
     createUser = (userData ,callback) =>{
-        usermodel.createUser(userData,callback);
+        User.createUser(userData,callback);
     };
 
     loginUser = (userLogin, callback) => {
@@ -58,7 +58,11 @@ class UserRegis {
     
     resetPassword = (data ,callback) => {
         usermodel.resetPassword(data ,callback);
-    }
+    };
+
+    loginSocial = (googleInfo, callback) => {
+        usermodel.loginSocial(googleInfo, callback);
+    };
 }
 
 module.exports = new UserRegis();

@@ -1,15 +1,13 @@
-/**
- * @description Dependencies require to be installed before its execution
- */
 const express = require('express');
-const bodyparser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
+const passport = require('passport');
 const redis = require('redis');
-const responseTime = require('response-time');
+const cookieSession = require('cookie-session');
 const logger = require('./Logger/logger');
 const swaggerDoc = require('./swagger.json');
 const dbConnection = require('./config/DBconfig');
 require('dotenv').config();
+// require('./passport-setup');
 
 const port = process.env.PORT || 5000;
 
@@ -18,18 +16,31 @@ const port = process.env.PORT || 5000;
  */
 
 const app = express();
-app.use(responseTime());
 
+app.use(cookieSession({
+  name: 'fundoonote-session',
+  keys: ['key1', 'key2'],
+}));
+
+const isLoggedin = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+};
 app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.json());
 
-// require('./config/databaseConfig')(app);
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
+app.set('view engine', 'ejs');
+
 /**
- * @description  define a simple route
+ * @description Creating Redis Connection..!
  */
 
 const client = redis.createClient();
@@ -48,7 +59,21 @@ client.on('end', () => {
 });
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Creating FundooNote App ...Note Keeping App Like Google Keep' });
+  res.send('You Have Logout...');
+});
+
+app.get('/failed', isLoggedin, (req, res) => {
+  res.send('You Have Failed To Login...');
+});
+
+app.get('/success', (req, res) => {
+  res.send('Welcome !');
+});
+
+app.get('/logout', (req, res) => {
+  req.session = null;
+  req.logOut();
+  res.send('You have Logout..!');
 });
 
 require('./app/routes/user')(app);

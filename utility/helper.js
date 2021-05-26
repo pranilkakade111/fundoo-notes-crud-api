@@ -56,6 +56,7 @@ const verifyToken = (req, res, next) => {
     req.userData = decode;
     const userId = decode.id;
     req.userId = userId;
+    // console.log('UserId is Getting From Middleware', req.userId);
     next();
   } catch (error) {
     res.status(401).send({

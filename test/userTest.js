@@ -22,7 +22,7 @@ describe('user', () => {
   });
 
   it('givenUser_With_ImproperData_Should_not_Register', (done) => {
-    const userInfo = userData.user.userRegistration;
+    const userInfo = userData.user.userRegistration_With_Improper_Details;
     chai.request(server).post('/user').send(userInfo).end((err, res) => {
       res.should.have.status(400);
       done();

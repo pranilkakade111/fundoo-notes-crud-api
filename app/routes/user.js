@@ -8,6 +8,7 @@
  * @version         : 1.0
  * @since           : 02-05-2021
  ************************************************************************* */
+const passport = require('passport');
 const user = require('../controllers/user');
 const note = require('../controllers/note');
 const label = require('../controllers/label');
@@ -50,4 +51,10 @@ module.exports = (app) => {
   app.put('/addCollaborator', verifyToken, note.addCollaborator);
 
   app.put('/removeCollaborator', verifyToken, note.removeCollaborator);
+
+  app.get('/google',
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+  app.get('/google/callback',
+    passport.authenticate('google', { failureRedirect: '/failed' }), user.loginSocial);
 };

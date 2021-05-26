@@ -1,0 +1,24 @@
+{
+    "notes": {
+        "createNote": {
+            "title": "Something",
+            "description": "Note...!!!!"
+        },
+        "createNoteWithImproperData": {
+            "title": "sfsjdfbsjf"
+        },
+        "updateData": {
+            "title": "Updated",
+            "description": "Update Is made....."
+        },
+        "changeTrashStatus": {
+            "isTrashed": true
+        },
+        "properToken":{
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByYW5pbGtha2FkZTJAZ21haWwuY29tIiwiaWQiOiI2MDliZWI3NWNlMmQ5ODEzYzhhMDg2MTgiLCJpYXQiOjE2MjA4ODAzMjMsImV4cCI6MTYyMDk2NjcyM30.boiKDWQrNzG0hkvCSC67Gf7cEKLSF5s5O_UeMF1myHk"
+        },
+        "ImproperToken":{
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByYW5pbGtha2FkZTJAZ21haWwuY29tIiwiaWQiOiI2MDliZWI3NWNlMmQ5ODEzYzhhMDg2MTgiLCJpYXQiOjE2MjA4ODAzMjMsImV4cCI6MTYyMDk2NjcyM30.boiKDWQrNzG0hkvCSC67Gf7cEKLSF5s5O_UeMF1my"
+        }
+    }
+}

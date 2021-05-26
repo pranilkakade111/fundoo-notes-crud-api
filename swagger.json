@@ -336,13 +336,13 @@
                 ]
             }
         },
-        "/lables":{
+        "/labels":{
             "post": {
                 "tags": [
-                    "FundooNotes: Creates Lables...!"
+                    "FundooNotes: Creates Labels...!"
                 ],
-                "description": "Create A New Lable",
-                "summary": "Create A Lable",
+                "description": "Create A New Label",
+                "summary": "Create A Label",
                 "consumes":[
                     "application/json"
                 ],
@@ -351,13 +351,13 @@
                 ],
                 "parameters": [
                     {
-                        "name": "Lables",
+                        "name": "Labels",
                         "in":"body",
                         "required": true,
                         "schema": {
                             "type":"object",
                             "properties": {
-                                "lable":{
+                                "label":{
                                     "type":"string"
                                 }
                             }
@@ -367,10 +367,10 @@
                 ],
                 "responses": {
                     "200":{
-                        "description": "Lable Created Successfully.....!!!!"
+                        "description": "Label Created Successfully.....!!!!"
                     },
                     "401":{
-                        "description": "Failed To Create Lable...!!!"
+                        "description": "Failed To Create Label...!!!"
                     }
                 },
                 "security": [
@@ -381,16 +381,16 @@
             },
             "get": {
                 "tags": [
-                    "FundooNote: Get Lables"
+                    "FundooNote: Get Labels"
                 ],
-                "summary": "Retrive All Lables",
-                "description": "Retrive All Lables",
+                "summary": "Retrive All Labels",
+                "description": "Retrive All Labels",
                 "responses": {
                     "200":{
-                        "description": "Retrived All Lables Successfully...!"
+                        "description": "Retrived All Labels Successfully...!"
                     },
                     "401":{
-                        "description": "Failed To Retrive All Lables...!!!"
+                        "description": "Failed To Retrive All Labels...!!!"
                     }
                 },
                 "security": [
@@ -400,32 +400,32 @@
                 ]
             }
         },
-        "/lables/{id}":{
+        "/labels/{id}":{
             "parameters": [
                 {
                     "name": "id",
                     "in": "path",
                     "required": true,
-                    "description": "Find Lable By Id..!!",
+                    "description": "Find Label By Id..!!",
                     "type": "string"
                 }
             ],
             "put": {
                 "tags": [
-                    "FundooNote: Update Lables"
+                    "FundooNote: Update Labels"
                 ],
-                "summary": "Update An Existing Lable..!!",
-                "description": "Find Lable By Id And Update..!!",
-                "operationId": "updateLable",
+                "summary": "Update An Existing Label..!!",
+                "description": "Find Label By Id And Update..!!",
+                "operationId": "updateLabel",
                 "parameters": [
                     {
-                        "name": "lables",
+                        "name": "labels",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "type":"object",
                             "properties": {
-                                "lable":{
+                                "label":{
                                     "type":"string"
                                 }
                             }
@@ -434,10 +434,10 @@
                 ],
                 "responses": {
                     "200":{
-                        "description": "Lable Get Updated Successfully...!!"
+                        "description": "Label Get Updated Successfully...!!"
                     },
                     "404":{
-                        "description": "Failed To Update Lable...!!!"
+                        "description": "Failed To Update Label...!!!"
                     }
                 },
                 "security": [
@@ -448,17 +448,17 @@
             },
             "delete": {
                 "tags": [
-                    "FundooNotes: Delete Lable"
+                    "FundooNotes: Delete Label"
                 ],
-                "summary": "Delete A Lable",
-                "description": "Delete A Lable By Its ID..!",
-                "operationId": "deleteLable",
+                "summary": "Delete A Label",
+                "description": "Delete A Label By Its ID..!",
+                "operationId": "deleteLabel",
                 "responses": {
                     "200":{
-                        "description": "Lable Get deleted Successully...!!!"
+                        "description": "Label Get deleted Successully...!!!"
                     },
                     "400":{
-                        "description": "Failed To Delete Lable...!!!"
+                        "description": "Failed To Delete Label...!!!"
                     }
                 },
                 "security": [

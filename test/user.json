@@ -3,24 +3,24 @@
     {
         "userRegistration":
         {
-            "firstName" : "Dhananjay",
+            "firstName" : "Pranil",
             "lastName"  : "Kakade",
-            "email"     : "dhananjaykakade814@gmail.com",
-            "password"  : "1111"
+            "email"     : "pranilkakade2@gmail.com",
+            "password"  : "0000"
         },
 
         "userRegistration_With_Improper_Details":
         {
-            "firstName": "Dhanan",
-            "lastName": "Kakad",
-            "email": "dhananjaykakade@gmail.com",
-            "password": "111"
+            "firstName": "sushant",
+            "lastName": "kakade",
+            "email": "pranilkakade111gmail.com",
+            "password": ""
         },
 
         "userLogin":
         {
-            "email": "dhananjaykakade814@gmail.com",
-            "password": "1111"
+            "email": "pranilkakade2@gmail.com",
+            "password": "0000"
         },
 
         "userLogin_with_Improper_Details":
@@ -31,7 +31,7 @@
 
         "forgotPassword":
         {
-            "email": "dhananjaykakade814@gmail.com"
+            "email": "pranilkakade2@gmail.com"
         },
 
         "forgotPassword_with_Improper_Details":
@@ -41,8 +41,8 @@
 
         "resetPassword_with_proper_token":
         {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiZGhhbmFuamF5a2FrYWRlODE0QGdtYWlsLmNvbSJ9LCJpYXQiOjE2MjA0MTM5OTMsImV4cCI6MTYyMDUwMDM5M30.p7YuxlcBjSnpe9GWSaiFvzdouCiCWKMw3uQActDzN5Q",
-            "password": "1234"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoicHJhbmlsa2FrYWRlMkBnbWFpbC5jb20ifSwiaWF0IjoxNjIwNDQ3OTQ5LCJleHAiOjE2MjA1MzQzNDl9.xK_63P-2XHRcB2hKhzLmdv81m37cBZW-EaU_jOXB3qs",
+            "password": "0000"
         },
 
         "resetPassword_with_Improper_token":

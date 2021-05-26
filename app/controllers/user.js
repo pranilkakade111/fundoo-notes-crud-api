@@ -134,7 +134,40 @@ class UserReg {
             });
         }
        
-    }
+    };
+
+    loginSocial = (req, res) => {
+      try {
+        const googleInfo = {
+            googleId: req.user.id,
+            firstName: req.user.name.givenName,
+            lastName: req.user.name.familyName,
+            userName: req.user.emails[0].value,
+            password: null,
+            googleLogin: true
+        };
+        userservices.loginSocial(googleInfo, (err, data) => {
+            if (err) {
+                return res.status(400).send({
+                    success: false,
+                    message: 'Login Failed....!!!!',
+                    error
+                });
+            } else {
+                return res.status(200).send({
+                    success: true,
+                    message: 'Login Successful...!!!',
+                    Token: createToken(data)
+                });
+            }
+        });
+      } catch (error) {
+        return res.status(400).send({
+            success: false,
+            message: 'Invalid...!!!!'
+        });
+      }
+    };
 
 }
 
