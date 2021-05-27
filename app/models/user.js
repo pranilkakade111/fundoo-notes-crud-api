@@ -7,11 +7,10 @@
  * @version         : 1.0
  * @since           : 02-05-2021
  ************************************************************************* */
-const { required, boolean } = require('@hapi/joi');
+ require('dotenv').config();
+const mongoose = require('mongoose');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-require('dotenv').config();
-const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const UserSchema = mongoose.Schema({
@@ -37,6 +36,43 @@ UserSchema.pre('save', async function (next) {
     }
 
 });
+
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_SECRET,
+    callbackURL: 'http://localhost:5000/google/callback',
+  },
+   async (accessToken, refreshToken, profile, done) => {
+       const newUser = {
+           googleId: profile.id,
+           firstName: profile.name.givenName,
+           lastName: profile.name.familyName,
+           email: profile.emails[0].value,
+           password: null,
+           googleLogin: true,
+       };
+       try {
+         let user = await userModel.findOne({ googleId: profile.id });
+         if(user) {
+             done(null, user);
+         } else {
+             user = await userModel.create(newUser);
+             done(null, user);
+         }
+       } catch (err) {
+         console.log(err);
+       }
+   }
+  ));
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+  });
+  
+  passport.deserializeUser(function(id, done) {
+    userModel.findById(id, function(err, user) {
+      done(err, user);
+    });
+  });
 
 const userModel = mongoose.model('User', UserSchema);
 
@@ -69,44 +105,15 @@ class UserModel {
             .then((cred) => {
                 callback(null, cred);
             });
-
     };
 
-    loginSocial = async (profile, done) => {
-        passport.serializeUser((user, done) => {
-            done(null, user.id);
-        });
-
-        passport.deserializeUser((id, done) => {
-            userModel.findById(id, (err, user) => done(err, user));
-        });
-
-        passport.use(new GoogleStrategy({
-            clientID: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_SECRET,
-            callbackURL: 'http://localhost:5000/google/callback',
-        }));
-
-        const newUser = {
-            googleId: profile.id,
-            firstName: profile.name.givenName,
-            lastName: profile.name.familyName,
-            userName: profile.emails[0].value,
-            password: null,
-            googleLogin: true            
-        }
-
-        try {
-          let user = await userModel.findOne({ googleId: profile.id });
-          if(user){
-            done(null, user);  
-          } else {
-              user = await userModel.create(newUser);
-              done(null, user);
-          } 
-        } catch (error) {
-          console.log(error);  
-        }
+    socialLogin = (profile, callback) => {
+       const googleId = profile.id,
+       const firstName = profile.name.givenName,
+       const lastName = profile.name.familyName,
+       const userName = profile.emails[0].value,
+       const password = null,
+       const googleLogin = true, 
     };
 }
 module.exports = new UserModel();
