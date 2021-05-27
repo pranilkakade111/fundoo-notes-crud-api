@@ -10,9 +10,12 @@
  *
  ************************************************************************* */
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const userservices = require('../services/user');
 const { requestValidationSchema, createToken } = require('../../utility/helper');
 const { restart } = require('nodemon');
+const { data } = require('../../Logger/logger');
 require('dotenv').config();
 
 class UserReg {
@@ -136,39 +139,39 @@ class UserReg {
        
     };
 
-    loginSocial = (req, res) => {
+    socialLogin = (req, res) => {
       try {
         const googleInfo = {
-            googleId: req.user.id,
-            firstName: req.user.name.givenName,
-            lastName: req.user.name.familyName,
-            userName: req.user.emails[0].value,
-            password: null,
-            googleLogin: true
+          googleId: req.user.id,
+          firstName: req.user.name.givenName,
+          lastName: req.user.name.familyName,
+          userName: req.user.emails[0].value,
+          password: null,
+          googleLogin: true,  
         };
-        userservices.loginSocial(googleInfo, (err, data) => {
-            if (err) {
-                return res.status(400).send({
-                    success: false,
-                    message: 'Login Failed....!!!!',
-                    error
-                });
+        userservices.socialLogin(googleInfo, (err, data) => {
+            if(err) {
+              return res.status(400).send({
+                success: false,
+                message: 'Login Failed... !',
+                err, 
+              });
             } else {
-                return res.status(200).send({
-                    success: true,
-                    message: 'Login Successful...!!!',
-                    Token: createToken(data)
-                });
+              return res.status(200).send({
+                success: true,
+                message: 'Login Successful...!!',
+                Token: createToken(data),  
+              });  
             }
-        });
-      } catch (error) {
-        return res.status(400).send({
+        }); 
+      } catch (err) {
+         res.send({
             success: false,
-            message: 'Invalid...!!!!'
+            message: 'Internal Server Error...!',
+            err,
         });
       }
     };
-
 }
 
 module.exports = new UserReg();
