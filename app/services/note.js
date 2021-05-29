@@ -81,6 +81,10 @@
    removeCollaborator = (userdata, callback) => {
     notemodel.removeCollaborator(userdata, callback);
    };
+
+   searchNote =(searchTitle, callback) => {
+    notemodel.searchNote(searchTitle, callback);
+   };
  }
  
  
