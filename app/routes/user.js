@@ -18,14 +18,7 @@ const { verifyToken } = require('../../utility/helper');
 const { cache } = require('../../utility/redisCache');
 
 const app = express();
-
-app.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true,
-}));
 app.use(passport.initialize());
-app.use(passport.session());
 
 module.exports = (app) => {
   app.post('/user', user.createUser);
