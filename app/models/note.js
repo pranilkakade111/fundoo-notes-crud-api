@@ -131,6 +131,15 @@ const mongoose = require('mongoose');
     const userId = userdata.userId;
     noteModel.findByIdAndUpdate(noteId, { $pull: { collaborator: userId } }, callback);
    };
+
+   searchNote = (userData, callback) => {
+    let regax = new RegExp(userData, 'i');
+    noteModel.find({title: regax}).then((data) => {
+      callback(null, data);
+    }).catch((err) => {
+      callback(err, null);
+    });
+   };
  }
  
  module.exports = new NoteModel();
