@@ -8,14 +8,15 @@
  * @version         : 1.0
  * @since           : 02-05-2021
  ************************************************************************* */
-const User = require('../models/user');
+const usermodel = require('../models/user');
 const bcrypt = require('bcrypt');
 const {nodeMail} = require('../../utility/helper');
+const jwt = require('jsonwebtoken');
 
 class UserRegis {
 
     createUser = (userData ,callback) =>{
-        User.createUser(userData,callback);
+        usermodel.createUser(userData,callback);
     };
 
     loginUser = (userLogin, callback) => {
@@ -60,8 +61,22 @@ class UserRegis {
         usermodel.resetPassword(data ,callback);
     };
 
-    loginSocial = (googleInfo, callback) => {
-        usermodel.loginSocial(googleInfo, callback);
+
+    socialLogin(googleInfo) {
+        return new Promise((resolve, reject) => {
+          usermodel.socialLogin(googleInfo).then((data) => {
+            let payload = {
+                '_id' : data._id,
+                'userName': data.userName
+            };
+            let token = jwt.sign(payload, process.env.JWT);
+            resolve({data, token});
+          }).catch((err) => {
+              reject(err);
+          });
+
+        });
+         
     };
 }
 
