@@ -1,7 +1,6 @@
 const express = require('express');
-const swaggerUi = require('swagger-ui-express');
 const passport = require('passport');
-const session = require('express-session');
+const swaggerUi = require('swagger-ui-express');
 const logger = require('./Logger/logger');
 const swaggerDoc = require('./swagger.json');
 const dbConnection = require('./config/DBconfig');
@@ -9,11 +8,6 @@ require('dotenv').config();
 
 const port = process.env.PORT || 5000;
 const app = express();
-
-// app.use(cookieSession({
-//   name: 'fundoonote-session',
-//   keys: ['key1', 'key2'],
-// }));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -26,10 +20,9 @@ app.get('/', (_req, res) => {
   res.send('Welcome To FundooNote Note Keeping App Like Google Keep..');
 });
 
-app.get('/failed', (_req, res) => {
-  res.send('You Have Failed To Login...!!!');
-});
+require('./passport');
 
+app.use(passport.initialize());
 require('./app/routes/user')(app);
 
 app.listen(port, () => {
