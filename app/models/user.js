@@ -7,19 +7,17 @@
  * @version         : 1.0
  * @since           : 02-05-2021
  ************************************************************************* */
- require('dotenv').config();
+require('dotenv').config();
 const mongoose = require('mongoose');
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const bcrypt = require('bcrypt');
 
 const UserSchema = mongoose.Schema({
-    googleId: { type: String, required: false },
+    googleId: { type: String},
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: false },
-    googleLogin: { type: Boolean, default: false },
+    userName: { type: String},
+    password: { type: String},
+    googleLogin: { type: Boolean},
 }, {
     timestamps: true,
     versionKey: false
@@ -34,45 +32,7 @@ UserSchema.pre('save', async function (next) {
     } catch (error) {
         next(error)
     }
-
 });
-
-passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_SECRET,
-    callbackURL: 'http://localhost:5000/google/callback',
-  },
-   async (accessToken, refreshToken, profile, done) => {
-       const newUser = {
-           googleId: profile.id,
-           firstName: profile.name.givenName,
-           lastName: profile.name.familyName,
-           email: profile.emails[0].value,
-           password: null,
-           googleLogin: true,
-       };
-       try {
-         let user = await userModel.findOne({ googleId: profile.id });
-         if(user) {
-             done(null, user);
-         } else {
-             user = await userModel.create(newUser);
-             done(null, user);
-         }
-       } catch (err) {
-         console.log(err);
-       }
-   }
-  ));
-passport.serializeUser(function(user, done) {
-    done(null, user.id);
-  });
-  
-  passport.deserializeUser(function(id, done) {
-    userModel.findById(id, function(err, user) {
-      done(err, user);
-    });
-  });
 
 const userModel = mongoose.model('User', UserSchema);
 
@@ -107,13 +67,25 @@ class UserModel {
             });
     };
 
-    socialLogin = (profile, callback) => {
-       const googleId = profile.id,
-       const firstName = profile.name.givenName,
-       const lastName = profile.name.familyName,
-       const userName = profile.emails[0].value,
-       const password = null,
-       const googleLogin = true, 
-    };
+    async socialLogin(userData) {
+        return userModel.findOne({ 'userName': userData.userName }).then(data => {
+              if(data !== null) {
+                 return data
+              } else {
+                 const data = new userModel({
+                     'firstName': userData.firstName,
+                     'lastName': userData.lastName,
+                     'userName': userData.userName,
+                     'password': userData.password,
+                     'googleId': userData.googleId,
+                     'googleLogin': userData.googleLogin,
+                 });
+                 return data.save();
+                 
+              }
+          }).catch(err => {
+             return('Something went wrong', err);
+         });
+     };
 }
 module.exports = new UserModel();
