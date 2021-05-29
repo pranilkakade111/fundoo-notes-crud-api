@@ -9,16 +9,12 @@
  * @since           : 02-05-2021
  ************************************************************************* */
 const passport = require('passport');
-const session = require('express-session');
-const express = require('express');
 const user = require('../controllers/user');
 const note = require('../controllers/note');
 const label = require('../controllers/label');
 const { verifyToken } = require('../../utility/helper');
 const { cache } = require('../../utility/redisCache');
-
-const app = express();
-app.use(passport.initialize());
+const { tokenAuthentication } = require('../../utility/googleAuth');
 
 module.exports = (app) => {
   app.post('/user', user.createUser);
@@ -57,7 +53,9 @@ module.exports = (app) => {
 
   app.put('/removeCollaborator', verifyToken, note.removeCollaborator);
 
-  app.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+  app.get('/failed', (req, res) => res.send('You Have Failed To Login...!!!'));
 
-  app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }, user.socialLogin));
+  app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'], prompt: 'consent', includeGrantedScopes: true }));
+
+  app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }), tokenAuthentication, user.socialLogin);
 };
