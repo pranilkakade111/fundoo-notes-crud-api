@@ -58,4 +58,6 @@ module.exports = (app) => {
   app.get('/google', passport.authenticate('google', { scope: ['profile', 'email'], prompt: 'consent', includeGrantedScopes: true }));
 
   app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/failed' }), tokenAuthentication, user.socialLogin);
+
+  app.get('/search/:title', verifyToken, note.searchNote);
 };
