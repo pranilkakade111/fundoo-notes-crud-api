@@ -9,13 +9,10 @@
  * @since           : 02-05-2021
  *
  ************************************************************************* */
-const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const userservices = require('../services/user');
 const { requestValidationSchema, createToken } = require('../../utility/helper');
-const { restart } = require('nodemon');
-const { data } = require('../../Logger/logger');
 require('dotenv').config();
 
 class UserReg {
@@ -139,38 +136,28 @@ class UserReg {
        
     };
 
-    socialLogin = (req, res) => {
-      try {
-        const googleInfo = {
-          googleId: req.user.id,
-          firstName: req.user.name.givenName,
-          lastName: req.user.name.familyName,
-          userName: req.user.emails[0].value,
-          password: null,
-          googleLogin: true,  
+socialLogin(req, res) {
+        let googleProfile = req.user.profile;
+        let response = {};
+        let googleInfo = {
+          firstName: googleProfile.name.givenName,
+          lastName:  googleProfile.name.familyName,
+          userName:  googleProfile.emails[0].value,
+          password:  null,
+          googleId:  googleProfile.id,
+          googleLogin: true,
         };
-        userservices.socialLogin(googleInfo, (err, data) => {
-            if(err) {
-              return res.status(400).send({
-                success: false,
-                message: 'Login Failed... !',
-                err, 
-              });
-            } else {
-              return res.status(200).send({
-                success: true,
-                message: 'Login Successful...!!',
-                Token: createToken(data),  
-              });  
-            }
-        }); 
-      } catch (err) {
-         res.send({
-            success: false,
-            message: 'Internal Server Error...!',
-            err,
+        userservices.socialLogin(googleInfo).then((data) => {
+          response.status = true;
+          response.message = 'Login Successfully...!';
+          response.token = data.token;
+          return res.status(200).send(response);
+        }).catch((err) => {
+            response.status = false;
+            response.message = 'Login Failed...!';
+            return res.status(500).send(response);  
         });
-      }
+         
     };
 }
 
