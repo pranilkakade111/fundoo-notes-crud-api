@@ -175,7 +175,7 @@
              return res.status(404).send({
                  success: false,
                  message: 'Note not Found With An Id..!!' + nId,
-                 
+                 err,         
              });
          }else {
              return res.status(200).send({
@@ -249,6 +249,26 @@
             });
         }
       });
+   };
+
+   searchNote = (req, res) => {
+     const searchTitle = req.params.title;
+
+     noteServices.searchNote(searchTitle, (err, noteresult) => {
+      if(err){
+        return res.status(404).send({
+          success: false,
+          message: 'Failed To Search Note By Title or Enter Proper Titleto search Note...!',
+          err,
+        });
+      } else {
+        return res.status(200).send({
+          success: true,
+          message: 'Note Searched Successfully....!',
+          data: noteresult,
+        });
+      }
+     });
    };
  }
  
