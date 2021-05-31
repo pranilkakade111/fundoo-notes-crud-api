@@ -1,5 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const { get } = require('../server');
 const server = require('../server');
 
 chai.use(chaiHttp);
@@ -222,6 +223,155 @@ describe('delete note', () => {
       .end((err, res) => {
         res.should.have.status(500);
         done();
+      });
+  });
+});
+
+describe('PUT /addLabelToNote', () => {
+  it.only('WhenItGivesCorrectEndPoint_PassCorrectToken_ShouldAddLabelToNoteSuccessfully', () => {
+    const noteDetails = noteData.notes.validSampleForAddOrDeleteLabel;
+    const token = noteData.notes.properToken;
+    chai
+      .request(server)
+      .put('/addLabelToNote')
+      .set('token', +token)
+      .send(noteDetails)
+      .end((err, res) => {
+        res.should.have.status(200);
+      });
+  });
+
+  it.only('WhenGivenWrongNoteIdWithCorrectEndPointsPassAndCorrectHeader_shouldNotAddLabelToNote', () => {
+    const noteDetails = noteData.notes.sampleWithWrongNoteId;
+    const token = noteData.notes.properToken;
+    chai
+      .request(server)
+      .put('/addLabelToNote')
+      .set('token', +token)
+      .send(noteDetails)
+      .end((err, res) => {
+        res.should.have.status(400);
+      });
+  });
+
+  it.only('WhenGivenProperEndPointsAndInvalidTokenPass_shouldReturn_ErrorMessage', () => {
+    const noteDetails = noteData.notes.validSampleForAddOrDeleteLabel;
+    const token = noteData.notes.ImproperToken;
+    chai
+      .request(server)
+      .put('/addLabelToNote')
+      .set('token', +token)
+      .send(noteDetails)
+      .end((err, res) => {
+        res.should.have.status(401);
+      });
+  });
+});
+
+describe('PUT /removeLabelToNote', () => {
+  it.only('WhenGivenProperEndPointsPassWithCorrectHeader_shouldRemoveLabelIdFromNote', () => {
+    const noteDetails = noteData.notes.validSampleForAddOrDeleteLabel;
+    const token = noteData.notes.properToken;
+    chai
+      .request(server)
+      .put('/removeLabelToNote')
+      .set('token', +token)
+      .send(noteDetails)
+      .end((err, res) => {
+        res.should.have.status(200);
+      });
+  });
+
+  it.only('WhenGivenProperEndPointsAndInvalidTokenPass_shouldReturn_ErrorMessageAnd_ShouldNotRemoveLabelFromNote', () => {
+    const noteDetails = noteData.notes.sampleWithWrongNoteId;
+    const token = noteData.notes.properToken;
+    chai
+      .request(server)
+      .put('/removeLabelToNote')
+      .set('token', +token)
+      .send(noteDetails)
+      .end((err, res) => {
+        res.should.have.status(400);
+      });
+  });
+
+  it.only('WhenGivenProperEndPointsAndInvalidTokenPass_shouldReturn_ErrorMessage', () => {
+    const noteDetails = noteData.notes.validSampleForAddOrDeleteLabel;
+    const token = noteData.notes.ImproperToken;
+    chai
+      .request(server)
+      .put('/addLabelToNote')
+      .set('token', +token)
+      .send(noteDetails)
+      .end((err, res) => {
+        res.should.have.status(401);
+      });
+  });
+});
+
+describe('PUT, /addCollaborator', () => {
+  it.only('WhenGivenProperEndPointsPassWithCorrectHeader_shouldReturn_SuccessMessageAddUserToNote', () => {
+    const noteDetails = noteData.notes.validSampleForCollaborator;
+    const token = noteData.notes.properToken;
+    chai
+      .request(server)
+      .put('/addCollaborator')
+      .set('token', +token)
+      .send(noteDetails)
+      .end((err, res) => {
+        res.should.have.status(200);
+      });
+  });
+
+  it.only('WhenGivenWrongNoteIdWithCorrectEndPointsPassAndCorrectHeader_shouldReturn_MessageOfFail', () => {
+    const noteDetails = noteData.notes.collaboratorSampleWithWrongNoteId;
+    const token = noteData.notes.properToken;
+    chai
+      .request(server)
+      .put('/addCollaborator')
+      .set('token', +token)
+      .send(noteDetails)
+      .end((err, res) => {
+        res.should.have.status(400);
+      });
+  });
+
+  it.only('WhenGivenProperEndPointsAndInvalidTokenPass_shouldReturn_ErrorMessage', () => {
+    const noteDetails = noteData.notes.validSampleForCollaborator;
+    const token = noteData.notes.ImproperToken;
+    chai
+      .request(server)
+      .put('/addCollaborator')
+      .set('token', +token)
+      .send(noteDetails)
+      .end((err, res) => {
+        res.should.have.status(401);
+      });
+  });
+});
+
+describe('GET /search/:title', () => {
+  it.only('WhenItGivesCorrectEndPoint_AndProPerToken_AndValidTitle_ShouldSearchNoteSuccessfully', () => {
+    const token = noteData.notes.properToken;
+    chai
+      .request(server)
+      .get('/search/Something')
+      .set('token', +token)
+      .send()
+      .end((err, res) => {
+        res.should.have.status(200);
+      });
+  });
+
+  it.only('WhenItGivesCorrectEndPoint_AndProPerToken_AndInvalidValidTitle_ShouldNotSearchNote', () => {
+    const token = noteData.notes.properToken;
+    chai
+      .request(server)
+      .get('/search/pranil')
+      .set('token', +token)
+      .send()
+      .end((err, res) => {
+        res.should.have.status(400);
       });
   });
 });
