@@ -19,6 +19,22 @@
         },
         "ImproperToken":{
             "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InByYW5pbGtha2FkZTJAZ21haWwuY29tIiwiaWQiOiI2MDliZWI3NWNlMmQ5ODEzYzhhMDg2MTgiLCJpYXQiOjE2MjA4ODAzMjMsImV4cCI6MTYyMDk2NjcyM30.boiKDWQrNzG0hkvCSC67Gf7cEKLSF5s5O_UeMF1my"
+        },
+        "validSampleForAddOrDeleteLabel": {
+            "noteId": "60b0f95e79f5c711c851b1f7",
+            "labelId": "60b0f9b979f5c711c851b1f9"
+        },
+        "validSampleForCollaborator": {
+            "noteId": "60b0f95e79f5c711c851b1f7",
+            "userId": "60b238383851f5239485d7be"
+        },
+        "sampleWithWrongNoteId": {
+            "noteId": "60b0f95e79f5c711c851b1g7",
+            "labelId": "60b0f9b979f5c711c851b1f8"
+        },
+        "collaboratorSampleWithWrongNoteId": {
+            "noteId": "60b0f95e79f5c711c851b1g7",
+            "userId": "60b238383851f5239485d7bd"
         }
     }
 }
