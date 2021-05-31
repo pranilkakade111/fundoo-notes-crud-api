@@ -15,7 +15,7 @@ const UserSchema = mongoose.Schema({
     googleId: { type: String},
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    userName: { type: String},
+    email: { type: String},
     password: { type: String},
     googleLogin: { type: Boolean},
 }, {
@@ -25,10 +25,14 @@ const UserSchema = mongoose.Schema({
 
 UserSchema.pre('save', async function (next) {
     try {
+        if(!(this.password == null || this.password == undefined || this.password == '')){
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(this.password, salt)
         this.password = hashedPassword
-        next()
+        next();
+        } else {
+            next();
+        }
     } catch (error) {
         next(error)
     }
