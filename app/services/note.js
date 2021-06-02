@@ -13,22 +13,49 @@
  const client = redis.createClient();
  
  class NoteService {
-   createNote = (noteInfo, callback) => {
+
+   /**
+   * @description save request data to database using model methods
+   * @param {*} noteInfo holds data to be saved in json formate
+   * @param {*} callback holds a function
+   */ 
+      createNote = (noteInfo, callback) => {
      notemodel.createNote(noteInfo, callback);
    };
     
+   /**
+   * @description update note  data existed in database, using model's mothod
+   * @param {*} notedata holds _id that is note  id
+   * @param {*} callback holds a function
+   */
    updateNote = (noteData, callback) => {
      notemodel.updateNote(noteData, callback);
    };
  
+   /**
+   * @description update note  data existed in database, using model's mothod
+    * by adding new label Object Id to Note
+    * @param {*} dataLabel takes data to be upadated in json formate
+    * @param {*} callback holds a function
+    */
    addLabel = (dataLabel, callback) => {
     notemodel.addLabel(dataLabel, callback);
    };
 
+   /**
+   * @description update note  data existed in database, using model's mothod
+    * by Removing new label Object Id to Note
+    * @param {*} removeLabelData takes data to be upadated in json formate
+    * @param {*} callback holds a function
+    */
    removeLabel = (removeLabelData, callback) => {
      notemodel.removeLabel(removeLabelData, callback);
    };
  
+   /**
+   * @description retrive all note  data from database using model's mothod
+   * @param {*} callback holds a function
+   */
    getNote = (callback) => {
        const KEY = 'notes';
        notemodel.getNote((err, result) => {
@@ -42,19 +69,39 @@
            }
        });
    };
- 
+
+   /**
+   * @description retrive one note  data from database using model mothod
+   * @param {*} Id holds _id that is note id
+   * @param {*} callback holds a function
+   */
    getNoteById = (Id, callback) => {
         notemodel.getNoteById(Id, callback);
    };
- 
+
+   /**
+   * @description Delete note from database using by using NoteId model mothod
+   * @param {*} noteIds holds _id that is note id
+   * @param {*} callback holds a function
+   */
    deleteNote = (noteIds, callback) => {
        notemodel.deleteNote(noteIds, callback);
    };
  
+   /**
+   * @description Move Note To trash In database using model mothod
+   * @param {*} NoteIDs holds _id that is note id
+   * @param {*} callback holds a function
+   */
    trashNote = (NoteIDs, callback) => {
        notemodel.trashNote(NoteIDs, callback);
    };
 
+   /**
+   * @description Adding User To Note In database using model mothod
+   * @param {*} userData holds _id that is note id
+   * @param {*} callback holds a function
+   */
    addCollaborator = (userData, callback) => {
      notemodel.checkUserID(userData, (err, idExist) => {
        if(err) {
@@ -77,13 +124,22 @@
        });
      };
    
-
+   /**
+   * @description Remove User To Note In database using model mothod
+   * @param {*} userData holds _id that is note id
+   * @param {*} callback holds a function
+   */
    removeCollaborator = (userdata, callback) => {
     notemodel.removeCollaborator(userdata, callback);
    };
 
-   searchNote =(searchTitle, callback) => {
-    notemodel.searchNote(searchTitle, callback);
+   /**
+   * @description Search Note By Title In database using model mothod
+   * @param {*} searchField holds _id that is note id
+   * @param {*} callback holds a function
+   */
+   searchNote = (searchField, callback) => {
+    notemodel.searchNote(searchField, callback);
    };
  }
  
