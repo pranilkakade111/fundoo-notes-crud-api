@@ -17,8 +17,10 @@ require('dotenv').config();
 
 class UserReg {
     /**
-     * @description  Create and Save a new user
-     */
+   * @description add user to database
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
     createUser = (req, res) => {
         if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.password) {
             return res.status(400).send({
@@ -54,9 +56,11 @@ class UserReg {
             }
         });
     };
-    /**
-     * @description  Login With User Credentials
-    */
+   /**
+   * @description Login With User Credential
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
     loginUser = (req, res) => {
         const userLogin = {
             email: req.body.email,
@@ -81,9 +85,11 @@ class UserReg {
 
     }
 
-    /**
-    * @description  Send Reset Password Link To EmailID 
-    */
+   /**
+   * @description Send Reset Password Link To EmailID
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
     forgotPassword = (req, res) => {
         const forgotPass = {
             email: req.body.email
@@ -106,6 +112,11 @@ class UserReg {
         });
     };
 
+    /**
+   * @description Reset Password 
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */   
     resetPassword = (req,res) => {
         try {
             const userInfo = {
@@ -136,7 +147,13 @@ class UserReg {
        
     };
 
-socialLogin(req, res) {
+    /**
+   * @description Social Login With Google
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
+
+    socialLogin(req, res) {
         let googleProfile = req.user.profile;
         let response = {};
         let googleInfo = {
