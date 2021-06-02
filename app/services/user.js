@@ -15,10 +15,20 @@ const jwt = require('jsonwebtoken');
 
 class UserRegis {
 
+     /**
+     * @description save request data to database using model methods
+     * @param {*} userData holds data to be saved in json formate
+     * @param {*} callback holds a function 
+     * */
     createUser = (userData ,callback) =>{
         usermodel.createUser(userData,callback);
     };
 
+    /**
+     * @description Login The User return result accordingly to database using model methods
+     * @param {*} userLogin holds data to be saved in json formate
+     * @param {*} callback holds a function 
+    */
     loginUser = (userLogin, callback) => {
         usermodel.loginUser(userLogin ,(_err, result) => {
             if (result) {
@@ -39,6 +49,11 @@ class UserRegis {
         });
     }
 
+    /**
+     * @description validate credentials and return result accordingly to database using model methods
+     * @param {*} data 
+     * @param {*}  callback callback funcntion
+     */
     forgotPassword = (data ,callback) => {
         usermodel.forgotPassword(data ,(err ,result) => {
             const detailsData = {
@@ -57,11 +72,20 @@ class UserRegis {
         });
     };
     
+    /**
+     * @description Call The Reset Function of model
+     * @param {*} data 
+     * @param {*}  callback callback funcntion
+     */
     resetPassword = (data ,callback) => {
         usermodel.resetPassword(data ,callback);
     };
 
 
+    /**
+     * @description Social Login With Google
+     * @param {*} googleInfo 
+     */
     socialLogin(googleInfo) {
         return new Promise((resolve, reject) => {
           usermodel.socialLogin(googleInfo).then((data) => {
