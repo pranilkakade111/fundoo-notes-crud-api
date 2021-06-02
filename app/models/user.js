@@ -41,12 +41,23 @@ UserSchema.pre('save', async function (next) {
 const userModel = mongoose.model('User', UserSchema);
 
 class UserModel {
+    /**
+      * @description save request data to database 
+      * @param {*} userData holds data to be saved in json formate
+      * @param {*} callback holds a function 
+     */
     createUser = (userData, callback) => {
         const userr = new userModel(userData);
         userr.save((err, userResult) => {
             (err) ? callback(err, null) : callback(null, userResult);
         });
     };
+   
+    /**
+      * @description Login the user with the EmailId And Password which is Present in databse
+      * @param {*} userLogin holds login data
+      * @param {*} callback holds a function 
+     */
 
     loginUser = (userLogin, callback) => {
         userModel.findOne({ email: userLogin.email })
@@ -55,6 +66,11 @@ class UserModel {
             });
     };
 
+    /**
+      * @description send Reset Link to email Id Of User 
+      * @param {*} data holds email Id
+      * @param {*} callback holds a function 
+     */
     forgotPassword = (data, callback) => {
         userModel.findOne({ email: data.email })
             .then((userOne) => {
@@ -62,6 +78,11 @@ class UserModel {
             });
     }
 
+    /**
+      * @description find Email Id In the database and callback with user data or error 
+      * @param {*} data hold email id
+      * @param {*} callback holds a function 
+     */
     resetPassword = async (data, callback) => {
         const salt = await bcrypt.genSalt(10)
         const encrypt = await bcrypt.hash(data.newPassword, salt)
@@ -71,6 +92,11 @@ class UserModel {
             });
     };
 
+    /**
+      * @description Find User with Username(emailId)  
+      * @param {*} userData holds data to Search for email and Create For New User
+      * @param {*} callback holds a function 
+     */
     async socialLogin(userData) {
         return userModel.findOne({ 'userName': userData.userName }).then(data => {
               if(data !== null) {
