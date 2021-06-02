@@ -6,7 +6,7 @@
         "version": "1.0.0",
         "title": "FundooNotes API"
     },
-    "host": "localhost:3000",
+    "host": "localhost:5000",
     "tags": [
         {
             "name": "FundooNotes",
@@ -38,7 +38,7 @@
                 ],
                 "parameters": [
                     {
-                        "name": " user ",
+                        "name": "user",
                         "in": "body",
                         "required": true,
                         "schema": { 
@@ -467,6 +467,245 @@
                     }
                 ]
                 
+            }
+        },
+        "/addLabelToNote":{
+            "put": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Add Label With Note..!",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "Note",
+                        "description": "Add LabelId With NoteId",
+                        "required": true,
+                        "schema": {
+                            "type":"object",
+                            "required": [
+                                "noteId",
+                                "labelId"
+                            ],
+                            "properties": {
+                                "noteId":{
+                                    "type":"string"
+                                },
+                                "labelId":{
+                                    "type":"string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Added LabelId With Note"
+                    },
+                    "400":{
+                        "description": "Failed To Add LabelId With Note"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT":[]
+                    }
+                ]
+            }
+        },
+        "/removeLabelToNote":{
+            "put": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Remove label From Note..!",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "Note",
+                        "description": "Remove Label Id From Note..!",
+                        "schema": {
+                            "type":"object",
+                            "required": [
+                                "noteId",
+                                "labelId"
+                            ],
+                            "properties": {
+                                "noteId":{
+                                    "type":"string"
+                                },
+                                "labelId":{
+                                    "type":"string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Remove Label Id From Note Successfully..!"
+                    },
+                    "400":{
+                        "description": "Failed To Remove Label Id From Note..!"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT":[]
+                    }
+                ]
+            }
+        },
+        "/addCollaborator":{
+            "put": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Collaborate User To Note",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "Note",
+                        "description": "Add User To Note",
+                        "schema": {
+                            "type":"object",
+                            "required": [
+                                "noteId",
+                                "userId"
+                            ],
+                            "properties": {
+                                "noteId":{
+                                    "type":"string"
+                                },
+                                "userId":{
+                                    "type":"string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Collaborate User With Note Successfully..!"
+                    },
+                    "400":{
+                        "description": "Failed To Collaborate User With Note..!"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT":[]
+                    }
+                ]
+            }
+        },
+        "/removeCollaborator":{
+            "put": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Remove User From Note..!",
+                "consumes":[
+                    "application/json"
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "Note",
+                        "description": "Remove User From Note..!",
+                        "schema": {
+                            "type":"object",
+                            "required": [
+                                "noteId",
+                                "userId"
+                            ],
+                            "properties": {
+                                "noteId":{
+                                    "type":"string"
+                                },
+                                "userId":{
+                                    "type":"string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Remove User With Note Successfully..!"
+                    },
+                    "400":{
+                        "description": "Failed To Remove User With Note..!"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT":[]
+                    }
+                ]
+
+            }
+        },
+        "/search/{title}":{
+            "parameters": [
+                {
+                    "name": "title",
+                    "in": "path",
+                    "required": true,
+                    "description": "find note by Title",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Note"
+                ],
+                "summary": "Search Note By Title..!",
+                "responses": {
+                    "200":{
+                        "description": "Search note By Title Successfully..!",
+                        "schema":{
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                }
+                            }  
+                        }
+                    },
+                    "400":{
+                        "description": "Failed To Search Note By Title..!"
+                    }
+                },
+                "security": [
+                    {
+                        "JWT":[]
+                    }
+                ]
             }
         }
     },
