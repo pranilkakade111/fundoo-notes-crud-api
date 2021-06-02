@@ -12,8 +12,9 @@
 
  class NoteController{
    /**
-   * @description  Create and Save a new Note
-   * params
+   * @description Create A New Note
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
    */
    createNote = (req, res) => {
       if(!req.body.title||!req.body.description){
@@ -45,8 +46,10 @@
         });
    };
  
-   /**
-   * @description  Update and Save a Existing note With NoteId
+  /**
+   * @description Update A Existing Note With Note Id
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
    */
    updateNote = (req, res) => {
      if(!req.body.title||!req.body.description){
@@ -79,6 +82,11 @@
        });
    };
  
+   /**
+   * @description Add Label To Note
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
    addLabel = (req, res) => {
     const labelData = {
         noteId: req.body.noteId,
@@ -103,7 +111,11 @@
     });
    };
 
-
+   /**
+   * @description Remove Label To Note
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
    removeLabel = (req, res) => {
      const removeLabelData = {
          noteId: req.body.noteId,
@@ -128,7 +140,9 @@
    };
  
    /**
-   * @description  Retriving All Notes
+   * @description Retrive All The Notes
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
    */
    getNote = (req, res) => {
      noteServices.getNote((err, noteResult) => {
@@ -147,6 +161,11 @@
      }); 
    };
  
+   /**
+   * @description Retrive A Single Note By Note Id
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
    getNoteById = (req, res) => {
      const Id = req.params.noteId;
      noteServices.getNoteById(Id, (err, noteResult) => {
@@ -166,7 +185,9 @@
    };
  
    /**
-   * @description  Delete Note Permanantly From Database
+   * @description Delete A Note Permanantly From The DataBase
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
    */
    deleteNote = (req, res) => {
        const nId = req.params.noteId;
@@ -187,8 +208,10 @@
    };
  
    /**
-    * @description  Move Note To Trash
-    */
+   * @description Move Note To Trash
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
    trashNote = (req, res) => {
      const NoteID = req.params.noteId;
      noteServices.trashNote(NoteID, (err, noteResult) => {
@@ -206,6 +229,11 @@
      });
    };
 
+   /**
+   * @description Add User With Note
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
    addCollaborator = (req, res) => {
     const userData = {
       noteId: req.body.noteId,
@@ -229,6 +257,11 @@
     });
    };
 
+   /**
+   * @description Remove User From Note
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
    removeCollaborator = (req, res) => {
     const userdata = {
         noteId: req.body.noteId,
@@ -252,24 +285,33 @@
    };
 
    searchNote = (req, res) => {
-     const searchTitle = req.params.title;
+     try {
+      const searchField = req.params.title;
+      noteServices.searchNote(searchField, (err, searchResult) => {
+        
+        if (searchResult == null || searchResult == undefined || searchResult == '') {
+          return res.status(400).send({
+            success: false,
+            message: 'Failed To Search Note Or Please Enter The Proper Note For Searching..!',
+            error: err,
+          });
+        } else {
+          return res.status(200).send({
+            success: true,
+            message: 'Note Searched SuccessFully..!',
+            data: searchResult,
+          });
+        }
+      });
+     } catch (error) {
+      return res.status(401).send({
+        success: false,
+        message: 'Internal Server Error',
+      });
+     }
+    
+  };
 
-     noteServices.searchNote(searchTitle, (err, noteresult) => {
-      if(err){
-        return res.status(404).send({
-          success: false,
-          message: 'Failed To Search Note By Title or Enter Proper Titleto search Note...!',
-          err,
-        });
-      } else {
-        return res.status(200).send({
-          success: true,
-          message: 'Note Searched Successfully....!',
-          data: noteresult,
-        });
-      }
-     });
-   };
  }
  
  module.exports = new NoteController();
