@@ -1,7 +1,21 @@
+/** ***********************************************************************
+ * Execution        : 1. default node       cmd> nodemon server.js
+ *
+ * Purpose          : To Create Database Schema For API
+ * @file            : label.js
+ * @author          : Pranil Kakade
+ * @version         : 1.0
+ * @since           : 14-05-2021
+ ************************************************************************* */
 const labelServices = require('../services/label');
 
 class LabelController {
  
+    /**
+   * @description Create A Label 
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
   createLabel = async (req, res) => {
       if(!req.body.label){
           return res.status(400).send({
@@ -28,6 +42,11 @@ class LabelController {
     }
   };
 
+  /**
+   * @description Update A Existing Label With Label Id 
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
   updateLabel = async (req, res) => {
     if(!req.body.label){
         return res.status(400).send({
@@ -56,6 +75,11 @@ class LabelController {
     }
   };
 
+  /**
+   * @description Delete A Label From Database
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
   deleteLabel = async (req, res) => {
     const labelDet = req.params.labelId;
     const labelData = await labelServices.deleteLabel(labelDet);
@@ -72,6 +96,11 @@ class LabelController {
     }
   };
 
+  /**
+   * @description Retrive All The Labels
+   * @param {*} request in json formate
+   * @param {*} response sends response from server
+   */
   getLabel = async (req, res) => {
     const labelData = await labelServices.getLabel();
     if(labelData !== null){
