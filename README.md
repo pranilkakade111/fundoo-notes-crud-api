@@ -27,5 +27,5 @@ pacakge.json it will installed in your system
 
 Step3:
 
-localhost:3000/
+localhost:5000/
 copy the above link paste it in your browser .... before that run the project using nodemon start
